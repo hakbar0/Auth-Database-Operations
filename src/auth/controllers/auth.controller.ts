@@ -1,21 +1,16 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { AuthService } from '../services/auth.service';
 
 @Controller('auth')
 export class AuthController {
+  constructor(private authService: AuthService) {}
+
   @Post('/register')
   async register(
     @Body() body: { username: string; email: string; password: string },
   ) {
-    // Mock implementation
-    return {
-      message: 'User created successfully',
-      user: {
-        id: 1,
-        username: body.username,
-        email: body.email,
-      },
-    };
+    return await this.authService.createPassword(body.password);
   }
 
   @Post('/login')
