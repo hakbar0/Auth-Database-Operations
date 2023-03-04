@@ -23,8 +23,9 @@ export class User {
     name: 'username',
     comment: 'The username of the user',
     nullable: false,
+    unique: true,
   })
-  firstName: string;
+  username: string;
 
   @IsEmail()
   @Column({
