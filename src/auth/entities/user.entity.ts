@@ -40,6 +40,7 @@ export class User {
     name: 'password',
     comment: 'The users, encrypted password.',
     nullable: false,
+    select: false,
   })
   password: string;
 
