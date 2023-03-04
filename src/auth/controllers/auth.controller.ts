@@ -23,7 +23,6 @@ export class AuthController {
         body.email,
         body.password,
       );
-
       return user;
     } catch (error) {
       throw new BadRequestException(error.message);

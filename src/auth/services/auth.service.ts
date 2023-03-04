@@ -46,11 +46,13 @@ export class AuthService {
 
     const hashedPassword = await this.createPasswordHash(password);
 
-    const user = await this.userRepository.save({
+    const newUser = await this.userRepository.save({
       username,
       email,
       password: hashedPassword,
     });
+
+    const { password: _password, id: _id, ...user } = newUser;
     return user;
   }
 
