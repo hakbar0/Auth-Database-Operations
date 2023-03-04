@@ -1,10 +1,9 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { RegisterUserDto } from '../dtos/register-user-dto';
 import { BadRequestException } from '@nestjs/common';
 import { User } from '../entities/user.entity';
-
+import { AuthGuard } from '@nestjs/passport';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -35,26 +34,10 @@ export class AuthController {
    * @param body The request body containing the email and password.
    * @returns An object with a message and an access token.
    */
+  @UseGuards(AuthGuard('local'))
   @Post('/login')
-  async login(@Body() body: { email: string; password: string }) {
-    // TODO: Implement authentication logic using Passport
-    // Mock implementation
-    return {
-      message: 'Logged in successfully',
-      access_token: 'mock-access-token',
-    };
-  }
-
-  /**
-   * Gets the profile of the currently authenticated user.
-   * Throws an UnauthorizedException if the user is not authenticated.
-   * @param req The request object, which contains the authenticated user in the user property.
-   * @returns A Promise that resolves to the User entity of the authenticated user.
-   */
-  @Get('/profile')
-  @UseGuards(AuthGuard('jwt'))
-  async getProfile(@Req() req: any) {
-    // req.user contains the authenticated user
-    return req.user;
+  async login(@Req() req) {
+    const user: User = req.user;
+    return this.authService.login(user.username, user.uuid);
   }
 }

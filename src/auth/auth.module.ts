@@ -4,6 +4,9 @@ import { AuthService } from './services/auth.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import entities from './entities/entities';
+import { PassportModule } from '@nestjs/passport';
+import { LocalStrategy } from './local-strategy';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -19,8 +22,13 @@ import entities from './entities/entities';
       entities,
       synchronize: true,
     }),
+    PassportModule,
+    JwtModule.register({
+      secret: 'secretKey',
+      signOptions: { expiresIn: '60s' },
+    }),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, LocalStrategy],
 })
 export class AuthModule {}

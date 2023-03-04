@@ -5,6 +5,7 @@ import { promisify } from 'util';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
+import { JwtService } from '@nestjs/jwt';
 
 const scrypt = promisify(_scrypt);
 
@@ -13,6 +14,7 @@ export class AuthService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private jwtService: JwtService,
   ) {}
 
   /**
@@ -70,5 +72,39 @@ export class AuthService {
       where: [{ username }, { email }],
     });
     return !!user;
+  }
+
+  async findByUsername(username: string) {
+    return await this.userRepository.findOne({ where: { username } });
+  }
+
+  /**
+   * Attempts to log in a user with the provided username and password.
+   * Throws a BadRequestException if the provided credentials are invalid.
+   * @param username The username of the user to log in.
+   * @param password The plaintext password of the user to log in.
+   * @returns A Promise that resolves to a success message if the login was successful.
+   */
+  async validateUser(username: string, password: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { username } });
+    if (!user) {
+      throw new BadRequestException('Invalid username or password');
+    }
+
+    const [salt, storedHash] = user.password.split('.');
+    const hash = (await scrypt(password, salt, 32)) as Buffer;
+
+    if (storedHash !== hash.toString('hex')) {
+      throw new BadRequestException();
+    }
+
+    return user;
+  }
+
+  async login(username: string, uuid: string) {
+    const payload = { username, uuid };
+    return {
+      accessToken: this.jwtService.sign(payload),
+    };
   }
 }
