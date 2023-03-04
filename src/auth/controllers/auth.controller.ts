@@ -1,9 +1,10 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../services/auth.service';
 import { RegisterUserDto } from '../dtos/register-user-dto';
 import { BadRequestException } from '@nestjs/common';
 import { User } from '../entities/user.entity';
-import { AuthGuard } from '@nestjs/passport';
+
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -38,6 +39,18 @@ export class AuthController {
   @Post('/login')
   async login(@Req() req) {
     const user: User = req.user;
-    return this.authService.login(user.username, user.uuid);
+    return await this.authService.login(user.username, user.uuid);
+  }
+
+  /**
+   * A protected route that requires a JWT token to access.
+   * @returns A message that confirms the user is authenticated.
+   */
+  @UseGuards(AuthGuard('jwt'))
+  @Get('/profile')
+  async protectedRoute(@Req() req) {
+    const user = await this.authService.findByUsername(req.user.username);
+    const { password: _password, id: _id, ...profile } = user;
+    return profile;
   }
 }
