@@ -1,0 +1,77 @@
+{
+  "info": {
+    "_postman_id": "d04144e1-e3db-4160-a9ba-2aedc005905a",
+    "name": "Auth Database Operations",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"frogssssssss\",\r\n    \"email\": \"test@gmaissssslss.com\",\r\n    \"password\": \"test@1Fa\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "localhost:3000/auth/register"
+          },
+          "response": []
+        },
+        {
+          "name": "Profile",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZyb2dzc3Nzc3NzcyIsInV1aWQiOiI4MDc5MjU3ZC1jYThlLTQ0ODgtOGE2ZC1mYTFlNjI1MGYyN2IiLCJpYXQiOjE2Nzc5Njc0NTgsImV4cCI6MTY3Nzk2NzUxOH0.cuIwTrS_Z6ceQis_VonrxerD8P1fwu1T74lnOsbOvlE",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"frogsssssss\",\r\n    \"password\": \"test@1Fa\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "localhost:3000/auth/profile"
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"frogssssssss\",\r\n    \"password\": \"test@1Fa\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "localhost:3000/auth/login"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
