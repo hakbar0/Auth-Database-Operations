@@ -19,7 +19,9 @@ To run this application, you must have the following installed:
 
 1. Clone the repository to your local machine.
 2. Run the build-and-run script by executing the `build-and-run.sh` file located in the root directory of the repository. On Windows, you can do this by installing Git Bash, opening the repository in Git Bash, and running `./build-and-run.sh`. On macOS, you can run `sh build-and-run.sh` from the Terminal.
-3. Once the script has finished running, navigate to `http://localhost:3000` to access the application.
+3. Next run `npm i`
+4. Next run `npm run start:dev`
+5. Once the script has finished running, navigate to `http://localhost:3000` to access the application.
 
 ### Running `.sh` files on Windows
 
@@ -43,7 +45,6 @@ To register a new user, send a POST request to `http://localhost:3000/auth/regis
 "password": "your-password"
 }
 
-
 If successful, the API will respond with the newly created user object.
 
 ### `/login`
@@ -54,7 +55,6 @@ To log in a user, send a POST request to `http://localhost:3000/auth/login` with
 "email": "your-email@example.com",
 "password": "your-password"
 }
-
 
 If successful, the API will respond with an access token that can be used to access protected routes.
 
