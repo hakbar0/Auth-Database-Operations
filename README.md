@@ -61,3 +61,7 @@ If successful, the API will respond with an access token that can be used to acc
 ### `/profile`
 
 To access a user's profile information, send a GET request to `http://localhost:3000/auth/profile` with an `Authorization` header containing the access token obtained from logging in.
+
+## Postman collection
+
+Note: a postman collection has been provided which can be imported. Called Auth Database Operations.postman_collection.json
